@@ -5,7 +5,7 @@ reconPlots: Create economics-style plots with R
 
 **Author:** [Andrew Heiss](https://www.andrewheiss.com/)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
-[![Build Status](https://travis-ci.org/andrewheiss/reconPlots.svg?branch=master)](https://travis-ci.org/andrewheiss/reconPlots)
+[![Build Status](https://travis-ci.org/andrewheiss/reconPlots.svg?branch=master)](https://travis-ci.org/andrewheiss/reconPlots) [![Coverage Status](https://img.shields.io/codecov/c/github/andrewheiss/reconPlots/master.svg)](https://codecov.io/github/andrewheiss/reconPlots?branch=master)
 
 Intro paragraph here.
 
