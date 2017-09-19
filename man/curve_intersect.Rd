@@ -4,12 +4,25 @@
 \alias{curve_intersect}
 \title{Calculate the intersection of two curves}
 \usage{
-curve_intersect(curve1, curve2)
+curve_intersect(curve1, curve2, empirical = TRUE, domain = NULL)
 }
 \arguments{
-\item{curve1}{\code{data.frame} with columns named \code{x} and \code{y}}
+\item{curve1}{Either a \code{data.frame} with columns named \code{x} and
+\code{y} or a function.}
 
-\item{curve2}{\code{data.frame} with columns named \code{x} and \code{y}}
+\item{curve2}{Either \code{data.frame} with columns named \code{x} and
+\code{y} or a function.}
+
+\item{empirical}{If true (default) indicates that the curves are data frames
+of empirical data. If false, indicates that the curves are actual
+functions.}
+
+\item{domain}{Two-value numeric vector indicating the bounds along the
+x-axis where the intersection should be found when \code{empirical} is
+false}
+}
+\value{
+A list with \code{x} and \code{y} values.
 }
 \description{
 Calculate where two lines or curves intersect. Curves are defined as data
@@ -18,19 +31,32 @@ This function works on both linear and nonlinear curves.
 }
 \details{
 For now, \code{curve_intersect} will only find one intersection.
+
+If you define curves with empirical data frames (i.e. provide actual values
+for x and y), ensure that \code{empirical = TRUE}.
+
+If you define curves with functions (i.e. \code{curve1 <- x^2}), ensure that
+\code{empirical = FALSE} and provide a range of x-axis values to search for
+an intersection using \code{domain}.
 }
 \examples{
 library(reconPlots)
 
-# Straight lines
+# Straight lines (empirical)
 line1 <- data.frame(x = c(1, 9), y = c(1, 9))
 line2 <- data.frame(x = c(9, 1), y = c(1, 9))
 
 curve_intersect(line1, line2)
 
-# Curved lines
+# Curved lines (empirical)
 curve1 <- data.frame(Hmisc::bezier(c(1, 8, 9), c(1, 5, 9)))
 curve2 <- data.frame(Hmisc::bezier(c(1, 3, 9), c(9, 3, 1)))
 
 curve_intersect(curve1, curve2)
+
+# Curved lines (functional)
+curve1 <- function(q) (q - 10)^2
+curve2 <- function(q) q^2 + 2*q + 8
+
+curve_intersect(curve1, curve2, empirical = FALSE, domain = c(0, 5))
 }

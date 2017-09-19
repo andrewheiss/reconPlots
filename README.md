@@ -24,7 +24,9 @@ install_github("andrewheiss/reconPlots")
 Plotting intersections of curves
 --------------------------------
 
-The `curve_intersect()` function calculates the intersection of two curves, defined as data frames with x and y columns.
+The `curve_intersect()` function calculates the intersection of two curves, defined as either as data frames with x and y columns, or as single-variable functions
+
+### Straight lines with empirical data
 
 ``` r
 library(reconPlots)
@@ -63,6 +65,8 @@ ggplot(mapping = aes(x = x, y = y)) +
 
 ![](tools/README-straight-line-intersection-1.png)
 
+### Curved Bézier lines with empirical data
+
 This also works with curved lines created with `Hmisc:bezier()`:
 
 ``` r
@@ -86,3 +90,26 @@ ggplot(mapping = aes(x = x, y = y)) +
 ```
 
 ![](tools/README-curved-line-intersection-1.png)
+
+### Curved lines defined with functions
+
+Instead of defining curves with empirical data (i.e. data frames of `x` and `y` values), you can also work with actual functions. The only change is that you need to set `empirical = FALSE` and define a range of values of x to look within for the intersection.
+
+``` r
+curve1 <- function(q) (q - 10)^2
+curve2 <- function(q) q^2 + 2*q + 8
+
+x_range <- 0:5
+
+curve_intersection <- curve_intersect(curve1, curve2, empirical = FALSE, 
+                                      domain = c(min(x_range), max(x_range)))
+
+ggplot() +
+  stat_function(aes(x_range), color = "blue", size = 1, fun = curve1) +
+  stat_function(aes(x_range), color = "red", size = 1, fun = curve2) +
+  geom_vline(xintercept = curve_intersection$x, linetype = "dotted") +
+  geom_hline(yintercept = curve_intersection$y, linetype = "dotted") +
+  theme_classic()
+```
+
+![](tools/README-curved-line-function-intersection-1.png)
